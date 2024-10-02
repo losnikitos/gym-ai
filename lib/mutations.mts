@@ -1,10 +1,11 @@
 import { produce } from "immer";
+import { Programme } from "../types/programme.mts";
 
-function randomInt(max) {
+function randomInt(max: number): number {
   return Math.floor(Math.random() * max);
 }
 
-function twoRandomInts(max) {
+function twoRandomInts(max: number): [number, number] {
   const a = randomInt(max);
   let b = randomInt(max);
   while (b === a) {
@@ -14,10 +15,10 @@ function twoRandomInts(max) {
 }
 
 // Splits a day's programme into two halves and swaps them
-function swapInDay(programme) {
+function swapInDay(programme: Programme): Programme {
   const dayIndex = randomInt(programme.length);
   const excercisesInDay = programme[dayIndex];
-  const pivotIndex = randomInt(excercisesInDay.index);
+  const pivotIndex = randomInt(excercisesInDay.length);
   const head = excercisesInDay.slice(0, pivotIndex);
   const tail = excercisesInDay.slice(pivotIndex);
   return produce(programme, (draft) => {
@@ -26,7 +27,7 @@ function swapInDay(programme) {
 }
 
 // Reverses the order of excercises in a random day
-function reverseDay(programme) {
+function reverseDay(programme: Programme): Programme {
   const dayIndex = randomInt(programme.length);
   const excercisesInDay = programme[dayIndex];
   if (excercisesInDay.length === 0) {
@@ -39,7 +40,7 @@ function reverseDay(programme) {
 }
 
 // Move a random excercise from a random day to another random day
-function moveBetweenDays(programme) {
+function moveBetweenDays(programme: Programme): Programme {
   const [fromDayIndex, toDayIndex] = twoRandomInts(programme.length);
   const fromDay = programme[fromDayIndex];
   const toDay = programme[toDayIndex];
